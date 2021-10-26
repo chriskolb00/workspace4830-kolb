@@ -1,0 +1,11 @@
+/CreateClub.class
+/CreateEvent.class
+/CreateUser.class
+/Login.class
+/SessionTrack.class
+/createServlet.class
+/datamodel/
+/eventsPage.class
+/hibernate.cfg.xml
+/loginServlet.class
+/util/
