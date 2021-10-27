@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -35,14 +34,17 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		String username = request.getParameter("username").trim();
 		String password = request.getParameter("password").trim();
+		int id = 0; 
 		if(username == "" | password == "") {
 			response.getWriter().println("Invalid username or password!");
 		}else {
-			if(UtilDB.Login(username, password)) {
+			id = UtilDB.Login(username, password); 
+			if(id != 0) {
 				HttpSession session = request.getSession(); 
-				session.setAttribute("user", username); 
+				session.setAttribute("user", username);
+				session.setAttribute("id", id); 
 				session.setMaxInactiveInterval(60*30); 
-				Cookie userName = new Cookie("user", username); 
+				Cookie userName = new Cookie("user", username);
 				userName.setMaxAge(60*30); 
 				response.addCookie(userName); 
 				response.sendRedirect("/webproject-alphas/home.jsp");

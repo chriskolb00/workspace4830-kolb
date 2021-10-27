@@ -1,10 +1,10 @@
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import util.UtilDB;
 
@@ -31,6 +31,8 @@ public class CreateClub extends HttpServlet {
 			throws ServletException, IOException {
 
 		String clubname = request.getParameter("clubname");
+		HttpSession session = request.getSession(); 
+		int userId = (int)session.getAttribute("id"); 
 
 		String header = "<%@ page language=\"java\" contentType=\"text/html; charset=ISO-8859-1\"\r\n"
 				+ "    pageEncoding=\"ISO-8859-1\"%>\r\n" + "  <script>\r\n" + "  </script>\r\n" + "<!DOCTYPE html>\r\n"
@@ -43,15 +45,17 @@ public class CreateClub extends HttpServlet {
 				+ "<link rel= \"stylesheet\" href=\"style.css\" type=\"text/css\">\r\n" + "</head>\r\n" + "<footer>\r\n"
 				+ "	<h3>Footer</h3>\r\n" + "</footer>\r\n" + "</html>";
 		if (!UtilDB.clubExists(clubname)) {
-
-			if (UtilDB.createClub(clubname)) {
+			int clubId = UtilDB.createClub(clubname, userId); 
+			
+			if (clubId != 0) {
 
 				response.getWriter()
-						.println(header + "<br/><br/>User: " + clubname + " Successfully Created!<br/><br/>" + footer);
-
+						.println(header + "<br/><br/>Club: " + clubname + " Successfully Created!<br/><br/>" + footer);
+				response.setHeader("Refresh", "10; home.jsp?clubID="+clubId);
 			} else {
 				response.getWriter()
-						.println(header + "<br/></br>User: " + clubname + " Creation Failed!<br/><br/>" + footer);
+						.println(header + "<br/></br>UserClub: " + clubname + " Creation Failed!<br/><br/>" + footer);
+				response.setHeader("Refresh", "10; creatClub.jsp");
 			}
 		} else {
 			response.getWriter().println(header + "<br/></br>A Club with name,  " + clubname

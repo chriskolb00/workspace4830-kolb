@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 /**
  *  @since J2SE-1.8
-CREATE TABLE `Project`.`clubroles` (
+CREATE TABLE clubroles (
   `id` INT NOT NULL AUTO_INCREMENT,
   `rolename` VARCHAR(45) NULL,
   `permissions` LONGTEXT NULL,
